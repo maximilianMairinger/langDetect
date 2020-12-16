@@ -8,20 +8,8 @@ import controller
 
 def parseResultToHTML(res):
   html = ""
-  html += "<b>" + str(res["baseValue"]) + " " + res["baseCurrency"] + "</b> entsprechen"
-  html += "<ul>"
-
-  values = res["values"]
-  rates = res["rates"]
-  for currency in values:
-    value = values[currency]
-    rate = rates[currency]
-
-    html += "<li><b>" + str(round(value, 2)) + " " + currency +  "</b> (Kurs: " + str(round(rate, 2)) + ")</li>"
-
-  html += "</ul>"
-  html += "Stand: " + res["date"]
-  
+  for attr, value in res.items():
+    html += (attr + ": " + "<b>" + str(value) + "</b><br>")
 
   return html
 
@@ -39,9 +27,6 @@ class Window(QtWidgets.QWidget):
     uic.loadUi("view.ui", self)
 
 
-    self.fromInput.setValidator(QRegExpValidator(QRegExp("^[A-Z,a-z]{1,3}$")))
-    self.toInput.setValidator(QRegExpValidator(QRegExp("^([A-Z,a-z]{1,3})(,([A-Z,a-z]{1,3})){0,1000}$")))
-
 
 
     def reset():
@@ -53,23 +38,18 @@ class Window(QtWidgets.QWidget):
 
     self.resetButton.clicked.connect(reset)
 
-    def askForCurrencyChange():
+    def askForLanguageDetect():
       """
       Ask for calculation
       """
 
-      value = float(self.betragInput.text())
-      fromCurrency = self.fromInput.text()
-      toCurrency = self.toInput.text()
-      live = self.liveCheckbox.isChecked()
-
-      self.controller.askForCurrencyChange(value, fromCurrency, toCurrency, live)
+      value = self.inputField.toPlainText()
+      self.controller.askForLanguageDetect(value)
       
 
-    self.goButton.clicked.connect(askForCurrencyChange)
+    self.goButton.clicked.connect(askForLanguageDetect)
 
-  def setStatus(self, status):
-    self.statusLabel.setText(status)
+
 
   def clearHTML(self):
     """
@@ -82,16 +62,20 @@ class Window(QtWidgets.QWidget):
     """
     Clear all inputs
     """
-    self.betragInput.setValue(0)
-    self.fromInput.setText("")
-    self.toInput.setText("")
-    self.liveCheckbox.setChecked(False)
-    self.statusLabel.setText("Reset")
+    value = self.inputField.setPlainText("")
 
   def showResult(self, res):
     """
     Show the result as html in the middle field
     """
+    del res["short"]
     self.browser.setHtml(parseResultToHTML(res))
+
+  def showError(self, message):
+    """
+    Show the result as html in the middle field
+    """
+    self.browser.setHtml("Error: " + str(message))
+
 
 
