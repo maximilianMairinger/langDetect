@@ -17,6 +17,8 @@ def parseResultToHTML(res):
 class Window(QtWidgets.QWidget):
   """
   The main window of the application
+  
+  :controller: The controller
   """
   def __init__(self, controller):
     """

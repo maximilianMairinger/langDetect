@@ -28,7 +28,9 @@ class Controller:
 
   def askForLanguageDetect(self, value):
     """
-    Ask for calculation
+    Calculate what the language a given text has
+
+    :value: Text to be language detected
     """
     # clear output
     self.view.clearHTML()
@@ -44,13 +46,9 @@ class Controller:
 
   def queryLanguage(self, value):
     """
-    Calculate the value of a quantety of a currency in other currencies
-    Currency should be given in 3 letter form (e.g: EUR, USD)
+    Query the server what the language a given text has
 
-    :value: How much of this currency should be calculated
-    :fromCurrency: What is the currency you want to calculate from. Currency should be given in 3 letter form (e.g: EUR, USD)
-    :toCurrency: What is the currency you want to calculate to. This can be a comma seperated string or a list. Currency should be given in 3 letter form (e.g: EUR, USD)
-    :live: If true, use live data from the web
+    :value: Text to be language detected
     :return: {ok: True, res: {...}} when everything went well. And {ok: False, msg: string} when something went wrong
     """
 
