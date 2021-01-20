@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt, QRegExp
 from PyQt5.QtGui import QRegExpValidator
-import controller
+
 
 
 
@@ -26,7 +26,7 @@ class Window(QtWidgets.QWidget):
     """
     super().__init__()
     self.controller = controller
-    uic.loadUi("view.ui", self)
+    uic.loadUi(r"C:\Projects\langDetect\view.ui", self)
 
 
 
